@@ -1,8 +1,9 @@
-import sanitize  from 'sanitize'
+import sanitizeBody  from 'express-validator'
 
-export const sanitizeInputs = (req,res,next)=>{
-    Object.keys(req.body).forEach((key)=>{
-        req.body[key] = sanitize(req.body[key]);
-    })
+export const sanitizeInputs = [
+  sanitizeBody('*').escape().trim(),
+  (req, res, next) => {
     next();
-}
+  }
+];
+

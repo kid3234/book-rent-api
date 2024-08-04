@@ -1,7 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-import { password } from "pg/lib/defaults";
+import { logger } from "../config/logger.js";
+
+
+
+
 
 export const registerUser = async (req, res) => {
   try {
@@ -54,11 +58,14 @@ export const login = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
     );
+
+    logger.info('User logged in',{userId:user.id});
     res.json({
       message: "Login successful",
       token,
     });
   } catch (error) {
+    logger.error('Login failed',{error:error.message});
     res.status(500).json({ error: "Faild to login", details: error });
   }
 };
