@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import sequelize from "../config/dbConnect.js";
 import User from "./user.js";
 
 const Book = sequelize.define(

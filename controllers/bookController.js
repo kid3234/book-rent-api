@@ -1,6 +1,9 @@
-import Book from "../models/book";
+import expressAsyncHandler from "express-async-handler";
+import Book from "../models/book.js";
 
-export const CreatBook = async (req, res) => {
+export const CreatBook = expressAsyncHandler(async (req, res) => {
+  console.log("this is me");
+  
   try {
     const { title, author, category, quantity } = req.body;
     const book = await Book.create({
@@ -18,24 +21,22 @@ export const CreatBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Failed to create book",
-      detailes: error,
     });
   }
-};
+});
 
-export const getBooks = async (req, res) => {
+export const getBooks = expressAsyncHandler(async (req, res) => {
   try {
     const book = await Book.findAll();
     res.json(book);
   } catch (error) {
     res.status(500).json({
       error: "Failed to fetch books",
-      details: error,
     });
   }
-};
+});
 
-export const updateBook = async (req, res) => {
+export const updateBook = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const { title, author, category, quantity } = req.body;
@@ -60,12 +61,11 @@ export const updateBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Failed to update book",
-      details: error,
     });
   }
-};
+});
 
-export const deleteBook = async (req, res) => {
+export const deleteBook = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -88,30 +88,26 @@ export const deleteBook = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Failed to delete book",
-      detailes: error,
     });
   }
-};
+});
 
-export const approveBook = async(req,res) =>{
-  try{
-    const {id} = req.params;
-    const {status} = req.body;
+export const approveBook = expressAsyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
 
     const book = await Book.findByPk(id);
 
-    if(!book) return res.status(404).json({error:'Book not found'})
+    if (!book) return res.status(404).json({ error: "Book not found" });
 
-      book.status = status;
-      await book.save();
+    book.status = status;
+    await book.save();
 
-      res.json({message:'Book status updated successfully',book})
-
-
-  }catch(error){
+    res.json({ message: "Book status updated successfully", book });
+  } catch (error) {
     res.status(500).json({
-      error:'Failed to update book status',
-      detailes:error
-    })
+      error: "Failed to update book status",
+    });
   }
-}
+});

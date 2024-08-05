@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "kidus1234",
+    "database": "bookrent",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "test": {
+    "username": "postgres",
+    "password": "kidus1234",
+    "database": "bookrent_test",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432
+  },
+  "production": {
+    "username": "postgres",
+    "password": "kidus1234",
+    "database": "bookrent_production",
+    "host": "localhost",
+    "dialect": "postgres",
+    "port": 5432
+  }
+}

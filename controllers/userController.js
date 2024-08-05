@@ -1,27 +1,28 @@
-import User from "../models/user";
+import expressAsyncHandler from "express-async-handler";
+import User from "../models/user.js";
 
-export const getUser = async (req, res) => {
+export const getUser = expressAsyncHandler(async (req, res) => {
   try {
     const users = await User.findAll();
     res.json(users);
   } catch (error) {
     res.status(500).json({
       error: "Failed to fetch users",
-      details: error,
     });
   }
-};
+});
 
-export const updateUser = async (req, res) => {
+export const updateUser = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, phone, location, role } = req.body;
 
     const user = await User.findByPk(id);
-    if (!user)
+    if (!user) {
       return res.status(404).json({
         error: "user not found",
       });
+    }
 
     await user.update({
       name,
@@ -38,20 +39,23 @@ export const updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Faild to update user",
-      details: error,
     });
   }
-};
+});
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
+
     const user = await User.findByPk(id);
-    if (!user)
+    console.log("user", user);
+
+    if (!user) {
       return res.status(404).json({
         error: "User not found",
-        details: error,
       });
+    }
 
     await user.destroy();
     res.json({
@@ -60,17 +64,24 @@ export const deleteUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Failed to delete user",
-      details: error,
     });
   }
-};
+});
 
-export const updateUserStatus = async (req, res) => {
+export const updateUserStatus = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
+
     const { status } = req.body;
-    const user = await User.findByPk(id);
-    if (!user) return res.status(404).json({ error: "user not found" });
+    if (!status) {
+      return res.status(404).json({ error: "status is not provided" });
+    }
+
+    let user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
 
     user.status = status;
 
@@ -79,7 +90,6 @@ export const updateUserStatus = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: "Error updating user status",
-      details: error,
     });
   }
-};
+});

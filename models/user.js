@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/db.js";
+import sequelize from "../config/dbConnect.js";
 
 const User = sequelize.define(
-  "Usser",
+  "User",
   {
     id: {
       type: DataTypes.UUID,
@@ -41,6 +41,7 @@ const User = sequelize.define(
     },
   },
   {
+    tableName: "Users", // Explicitly set table name
     timestamps: true,
   }
 );

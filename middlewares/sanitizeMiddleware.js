@@ -1,9 +1,11 @@
-import sanitizeBody  from 'express-validator'
+import { check } from "express-validator";
 
 export const sanitizeInputs = [
-  sanitizeBody('*').escape().trim(),
+  // Assuming you want to sanitize all fields in req.body
+  check('*').escape().trim(),
   (req, res, next) => {
     next();
   }
 ];
+
 

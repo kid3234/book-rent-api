@@ -1,0 +1,11 @@
+{"error":"secretOrPrivateKey must have a value","level":"error","message":"Login failed","timestamp":"2024-08-04T21:05:11.643Z"}
+{"error":"secretOrPrivateKey must have a value","level":"error","message":"Login failed","timestamp":"2024-08-04T21:08:39.775Z"}
+{"error":"secretOrPrivateKey must have a value","level":"error","message":"Login failed","timestamp":"2024-08-04T21:09:40.371Z"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-04T21:11:34.981Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-04T21:20:02.058Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-04T21:29:05.124Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-05T04:06:59.492Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-05T04:55:20.409Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-05T06:06:28.088Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-05T06:29:00.332Z","userId":"8f62b1c7-00ff-4d9c-9f25-2ae3e2e099c1"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-05T06:29:02.772Z","userId":"8f62b1c7-00ff-4d9c-9f25-2ae3e2e099c1"}
