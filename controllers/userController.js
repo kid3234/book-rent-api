@@ -1,5 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 export const getUser = expressAsyncHandler(async (req, res) => {
   try {
@@ -93,3 +93,13 @@ export const updateUserStatus = expressAsyncHandler(async (req, res) => {
     });
   }
 });
+
+
+export const  getAdminOwnerData= async(req, res) => {
+  try {
+    const owners = await User.getAdminOwnerData(); // Define getAdminOwnerData in the User model
+    res.json(owners);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
