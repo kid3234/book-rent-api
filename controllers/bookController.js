@@ -2,18 +2,28 @@ import { Op } from "sequelize";
 import expressAsyncHandler from "express-async-handler";
 import Book from "../models/book.js";
 import Income from "../models/income.js";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 export const CreatBook = expressAsyncHandler(async (req, res) => {
   console.log("this is me");
-  
+
   try {
-    const { title, author, category, quantity } = req.body;
+    const { title, author, category, quantity, image, price } = req.body;
+
+    const bookexist = await Book.findOne({ where: { title: title } });
+
+    if (bookexist) {
+      return res.status(500).json({
+        error: "Book exists",
+      });
+    }
     const book = await Book.create({
       title,
+      image,
       author,
       category,
       quantity,
+      price,
       ownerId: req.user.id,
     });
 
@@ -60,7 +70,7 @@ export const getBooks = expressAsyncHandler(async (req, res) => {
 export const updateBook = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, author, category, quantity } = req.body;
+    const { price, quantity, availability } = req.body;
 
     const book = await Book.findByPk(id);
 
@@ -70,9 +80,8 @@ export const updateBook = expressAsyncHandler(async (req, res) => {
       });
 
     await book.update({
-      title,
-      author,
-      category,
+      price,
+      availability,
       quantity,
     });
     res.json({
@@ -116,13 +125,12 @@ export const deleteBook = expressAsyncHandler(async (req, res) => {
 export const approveBook = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
 
     const book = await Book.findByPk(id);
 
     if (!book) return res.status(404).json({ error: "Book not found" });
 
-    book.approved = !book.approved;
+    book.status = !book.status;
     await book.save();
 
     res.json({ message: "Book status updated successfully", book });
@@ -133,27 +141,23 @@ export const approveBook = expressAsyncHandler(async (req, res) => {
   }
 });
 
-
-                                          
-
-
-
-export const getAdminDashboardData =async(req, res) => {
+export const getAdminDashboardData = async (req, res) => {
   try {
-    // 1. Fetch admin income statistics
-    const currentMonthIncome = await Income.getAdminCurrentMonthIncome();
-    const lastMonthIncome = await Income.getAdminLastMonthIncome();
-    const incomeComparison = ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
+    const ownerId = req.user.id;
 
-    // 2. Fetch available books
-    const availableBooks = await Book.getAvailableBooks(); // Define getAvailableBooks in the Book model
+    const currentMonthIncome = await Income.getCurrentMonthIncome(ownerId);
+    const lastMonthIncome = await Income.getLastMonthIncome(ownerId);
+    const incomeComparison =
+      ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    // 3. Fetch book status data
-    const bookStatusData = await Book.getBookStatusDataForAdmin(); // Define getBookStatusDataForAdmin in the Book model
+    const availableBooks = await Book.getAvailableBooks();
 
-    // 4. Fetch income data for line graph
-    const last6MonthsIncome = await Income.getAdminLast6MonthsIncome(); // Define getAdminLast6MonthsIncome in the Income model
-    const samePeriodLastYearIncome = await Income.getAdminSamePeriodLastYearIncome(); // Define getAdminSamePeriodLastYearIncome in the Income model
+    const bookStatusData = await Book.getBookStatusDataForAdmin();
+
+    const last6MonthsIncome = await Income.getLast6MonthsIncome(ownerId);
+    const samePeriodLastYearIncome = await Income.getSamePeriodLastYearIncome(
+      ownerId
+    );
 
     res.json({
       currentMonthIncome,
@@ -163,33 +167,31 @@ export const getAdminDashboardData =async(req, res) => {
       bookStatusData,
       incomeGraph: {
         last6MonthsIncome,
-        samePeriodLastYearIncome
-      }
+        samePeriodLastYearIncome,
+      },
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
-// Fetch owner dashboard data
-export const getOwnerDashboardData = async(req, res) =>{
+export const getOwnerDashboardData = async (req, res) => {
   try {
-    const ownerId = req.user.id; // Assuming you have owner authentication and the owner ID is available
+    const ownerId = req.user.id;
 
-    // 1. Fetch owner income statistics
-    const currentMonthIncome = await Income.getOwnerCurrentMonthIncome(ownerId);
-    const lastMonthIncome = await Income.getOwnerLastMonthIncome(ownerId);
-    const incomeComparison = ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
+    const currentMonthIncome = await Income.getCurrentMonthIncome(ownerId);
+    const lastMonthIncome = await Income.getLastMonthIncome(ownerId);
+    const incomeComparison =
+      ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    // 2. Fetch available books by owner
-    const availableBooks = await Book.getAvailableBooksByOwner(ownerId); // Define getAvailableBooksByOwner in the Book model
+    const availableBooks = await Book.getAvailableBooksByOwner(ownerId);
 
-    // 3. Fetch book status data for owner
-    const bookStatusData = await Book.getBookStatusDataForOwner(ownerId); // Define getBookStatusDataForOwner in the Book model
+    const bookStatusData = await Book.getBookStatusDataForOwner(ownerId);
 
-    // 4. Fetch income data for line graph
-    const last6MonthsIncome = await Income.getOwnerLast6MonthsIncome(ownerId);
-    const samePeriodLastYearIncome = await Income.getOwnerSamePeriodLastYearIncome(ownerId);
+    const last6MonthsIncome = await Income.getLast6MonthsIncome(ownerId);
+    const samePeriodLastYearIncome = await Income.getSamePeriodLastYearIncome(
+      ownerId
+    );
 
     res.json({
       currentMonthIncome,
@@ -199,20 +201,40 @@ export const getOwnerDashboardData = async(req, res) =>{
       bookStatusData,
       incomeGraph: {
         last6MonthsIncome,
-        samePeriodLastYearIncome
-      }
+        samePeriodLastYearIncome,
+      },
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
-// Fetch admin book data
-export const getAdminBookData = async(req, res)=> {
+export const getAdminBookData = async (req, res) => {
   try {
-    const books = await Book.getAdminBookData(); // Define getAdminBookData in the Book model
+    const books = await Book.getAdminBookData();
     res.json(books);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
+
+export const filterBook = async (req, res) => {
+  const query = req?.query?.value;
+
+  const book = await Book.findOne({
+    where: {
+      [Op.or]: [{ title: query }, { author: query }],
+    },
+  });
+
+  if (!book) {
+    return res.status(404).json({
+      message: "Book not found!",
+    });
+  }
+
+  res.json({
+    message: "Book fetched successfully",
+    book,
+  });
+};

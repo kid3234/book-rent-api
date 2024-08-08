@@ -1,5 +1,5 @@
 import express from "express";
-import { approveBook, CreatBook, deleteBook, getBooks, updateBook } from "../controllers/bookController.js";
+import { approveBook, CreatBook, deleteBook, filterBook, getBooks, updateBook } from "../controllers/bookController.js";
 import authenticateToken from "../middlewares/authMidleware.js";
 import { checkAbility } from "../middlewares/abilityMiddleware.js";
 
@@ -11,6 +11,7 @@ bookRoutes.get('/',authenticateToken,checkAbility('read','Book'),getBooks);
 bookRoutes.put('/:id',authenticateToken,checkAbility('update','Book'),updateBook);
 bookRoutes.delete('/:id',authenticateToken,checkAbility('delete','Book'),deleteBook);
 bookRoutes.patch('/:id/approve',authenticateToken,checkAbility('manage','all'),approveBook);
+bookRoutes.get('/filter',authenticateToken,checkAbility('read','Book'),filterBook);
 
 export default bookRoutes;
 

@@ -12,10 +12,10 @@ userRouter.delete('/:id',authenticateToken,checkAbility('delete','User'),deleteU
 userRouter.patch('/:id/status',authenticateToken,checkAbility('manage','all'),updateUserStatus);
 
 userRouter.get("/admin/dashboard",authenticateToken,checkAbility('manage','all'),getAdminDashboardData);
-userRouter.get("/owner",authenticateToken,checkAbility('manage','all'),getAdminOwnerData);
+userRouter.get("/admin/owners",authenticateToken,checkAbility('manage','all'),getAdminOwnerData);
 userRouter.get("/admin/books",authenticateToken,checkAbility('manage','all'),getAdminBookData); 
 
-userRouter.get("/owner/dashboard",authenticateToken,checkAbility('read','User'),getOwnerDashboardData);
+userRouter.get("/owner/dashboard",authenticateToken,checkAbility('read','Book'),getOwnerDashboardData);
 // userRouter.get("/owner/books",authenticateToken,checkAbility('read','User'),geta)
 
 

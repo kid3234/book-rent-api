@@ -6,12 +6,21 @@ import userRouter from "../routes/userRoutes.js";
 import bookRoutes from "../routes/bookRoutes.js";
 import dotenv from "dotenv";
 import { globalErrorHandler, notFound } from "../middlewares/globalErrorHandler.js";
-
+import cors from 'cors'
 dotenv.config();
 connectDB().catch(err => console.error('Database connection failed:', err));
 
 const app = express();
 
+
+app.use(cors());
+
+// Optionally, configure CORS to allow specific origins and methods
+app.use(cors({
+  origin: '*', // Replace with your allowed origin
+  methods: 'GET,POST,PUT,DELETE,Patch', // Specify allowed methods
+  credentials: true, // Allow cookies to be sent with requests
+}));
 app.use(express.json());
 app.use(limiter);
 

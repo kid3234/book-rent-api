@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/dbConnect.js";
+import Book from "./book.js";
 
 const User = sequelize.define(
   "User",
@@ -9,10 +10,7 @@ const User = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+   
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -32,12 +30,17 @@ const User = sequelize.define(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM("renter", "owner", "admin"),
+      type: DataTypes.ENUM("owner", "admin"),
+      defaultValue: "owner",
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("active", "disabled"),
-      defaultValue: "disabled",
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    approved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
   },
   {
@@ -47,3 +50,32 @@ const User = sequelize.define(
 );
 
 export default User;
+
+User.getAdminOwnerData = async function () {
+  return await User.findAll({
+    attributes: [
+      "id",
+      "location",
+      "status",
+      "approved",
+      "email",
+      "phone",
+
+      // Corrected subquery syntax
+      [
+        sequelize.literal(`(
+        SELECT COUNT(*)
+        FROM "Books" AS "Book"
+        WHERE "Book"."ownerId" = "User"."id"
+      )`),
+        "booksCount",
+      ], // Alias for the count of books
+    ],
+  });
+};
+
+
+ // name: {
+    //   type: DataTypes.STRING,
+    //   allowNull: false,
+    // },

@@ -1,5 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 export const getUser = expressAsyncHandler(async (req, res) => {
   try {
@@ -72,18 +72,13 @@ export const updateUserStatus = expressAsyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { status } = req.body;
-    if (!status) {
-      return res.status(404).json({ error: "status is not provided" });
-    }
-
     let user = await User.findByPk(id);
 
     if (!user) {
       return res.status(404).json({ error: "user not found" });
     }
 
-    user.status = status;
+    user.status = !user.status;
 
     await user.save();
     res.json({ message: "User status updated successfully", user });

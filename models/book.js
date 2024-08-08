@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/dbConnect.js";
-import User from "./User.js";
+import User from "./user.js";
 
 const Book = sequelize.define(
   "Book",
@@ -12,6 +12,16 @@ const Book = sequelize.define(
     },
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    image: {
+      type: DataTypes.STRING,
+      defaultValue:
+        "https://www.freepik.com/premium-ai-image/stack-books-with-green-blue-purple-book-top-them_271728489.htm#fromView=search&page=1&position=8&uuid=4e62e286-7283-402c-a0c4-7f16a65e524c",
+    },
+    price: {
+      type: DataTypes.DOUBLE,
+      defaultValue: 40,
       allowNull: false,
     },
     author: {
@@ -39,7 +49,7 @@ const Book = sequelize.define(
         key: "id",
       },
     },
-    approved: {
+    status: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
@@ -52,8 +62,6 @@ const Book = sequelize.define(
 Book.belongsTo(User, { as: "owner", foreignKey: "ownerId" });
 User.hasMany(Book, { as: "books", foreignKey: "ownerId" });
 
-// Static methods for fetching data
-
 // Get available books
 Book.getAvailableBooks = async function () {
   return await Book.findAll({ where: { availability: "FREE" } });
@@ -62,25 +70,23 @@ Book.getAvailableBooks = async function () {
 // Get book status data for admin
 Book.getBookStatusDataForAdmin = async function () {
   return await Book.findAll({
-    attributes: ["id", "title", "author", "availability", "ownerId"],
+    attributes: ["id", "title", "author", "status", "availability", "ownerId"],
     include: [
       {
         model: User,
         as: "owner",
-        attributes: ["id", "name"], // Assuming User model has a 'name' field
+        attributes: ["id", "name"],
       },
     ],
   });
 };
 
-// Get available books by owner
 Book.getAvailableBooksByOwner = async function (ownerId) {
   return await Book.findAll({
-    where: { ownerId, availability: "FREE" },
+    where: { ownerId },
   });
 };
 
-// Get book status data for owner
 Book.getBookStatusDataForOwner = async function (ownerId) {
   return await Book.findAll({
     where: { ownerId },
@@ -88,15 +94,22 @@ Book.getBookStatusDataForOwner = async function (ownerId) {
   });
 };
 
-// Get admin book data
 Book.getAdminBookData = async function () {
   return await Book.findAll({
-    attributes: ["id", "title", "author", "category", "availability", "ownerId"],
+    attributes: [
+      "id",
+      "title",
+      "author",
+      "category",
+      "status",
+      "availability",
+      "ownerId",
+    ],
     include: [
       {
         model: User,
         as: "owner",
-        attributes: ["id", "name", "location", "status"], // Assuming User model has these fields
+        attributes: ["id", "email"],
       },
     ],
   });

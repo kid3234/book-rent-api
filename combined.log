@@ -13,3 +13,55 @@
 {"level":"info","message":"User logged in","timestamp":"2024-08-06T18:54:19.736Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
 {"level":"info","message":"User logged in","timestamp":"2024-08-06T19:06:28.164Z","userId":"8f62b1c7-00ff-4d9c-9f25-2ae3e2e099c1"}
 {"level":"info","message":"User logged in","timestamp":"2024-08-06T20:02:29.583Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:37:58.353Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:39:43.556Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:44:55.999Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:52:28.187Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:55:40.389Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:56:58.151Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:56:58.332Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:57:08.034Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:58:12.506Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:58:26.115Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:58:26.265Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:58:26.410Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:58:26.673Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:59:03.630Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:59:10.013Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:59:10.950Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T06:59:11.051Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T07:02:27.630Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T07:14:15.824Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T07:57:42.285Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T08:21:59.926Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T08:38:06.984Z","userId":"8f62b1c7-00ff-4d9c-9f25-2ae3e2e099c1"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T09:07:25.710Z","userId":"a6ea7da0-9cc8-43d2-8bcb-594f5fb52eac"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T09:41:12.494Z","userId":"8f62b1c7-00ff-4d9c-9f25-2ae3e2e099c1"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:35:48.754Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:35:51.430Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:35:53.763Z"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T10:36:23.993Z","userId":"301b8336-fabc-492c-90a0-8c7763d99de5"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:41:15.014Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:41:18.468Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:41:20.731Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T10:41:30.823Z"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T10:41:55.489Z","userId":"301b8336-fabc-492c-90a0-8c7763d99de5"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T17:30:40.997Z","userId":"23bd3378-19d8-44c0-b463-3d15ca5a16b9"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T18:01:15.199Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T18:01:16.860Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T18:01:19.308Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T18:01:23.529Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T18:01:31.117Z"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-07T18:01:39.424Z"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T18:03:33.498Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T18:06:26.031Z","userId":"f1e2eca4-20fa-45f1-af99-36acd74cbafe"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T18:13:21.177Z","userId":"77044033-71de-4922-8d34-f4a3fbc44d71"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T18:14:34.982Z","userId":"77044033-71de-4922-8d34-f4a3fbc44d71"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T20:54:47.696Z","userId":"77044033-71de-4922-8d34-f4a3fbc44d71"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-07T20:56:49.012Z","userId":"23bd3378-19d8-44c0-b463-3d15ca5a16b9"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-08T06:35:40.609Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-08T06:35:40.651Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-08T07:56:24.375Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-08T07:58:12.750Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-08T13:58:40.047Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
+{"level":"info","message":"User logged in","timestamp":"2024-08-08T16:20:18.582Z","userId":"77044033-71de-4922-8d34-f4a3fbc44d71"}
