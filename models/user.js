@@ -10,7 +10,12 @@ const User = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-   
+    name: {
+      type: DataTypes.STRING,
+    },
+    image: {
+      type: DataTypes.STRING,
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -30,7 +35,7 @@ const User = sequelize.define(
       allowNull: false,
     },
     role: {
-      type: DataTypes.ENUM("owner", "admin"),
+      type: DataTypes.ENUM("owner", "admin","renter"),
       defaultValue: "owner",
       allowNull: false,
     },
@@ -44,15 +49,20 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "Users", // Explicitly set table name
+    tableName: "Users", 
     timestamps: true,
   }
 );
+
+
 
 export default User;
 
 User.getAdminOwnerData = async function () {
   return await User.findAll({
+    where:{
+      role:'owner'
+    },
     attributes: [
       "id",
       "location",
@@ -60,6 +70,8 @@ User.getAdminOwnerData = async function () {
       "approved",
       "email",
       "phone",
+      "name",
+      "image",
 
       // Corrected subquery syntax
       [
@@ -73,9 +85,3 @@ User.getAdminOwnerData = async function () {
     ],
   });
 };
-
-
- // name: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    // },
