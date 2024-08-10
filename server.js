@@ -39,6 +39,8 @@
 import http from 'http';
 import app from './app/app.js';
 import { initializeDatabase } from './config/database.js';
+import { createAdminUser } from './utils/createAdminUser.js';
+
 // import { initializeDatabase } from './database.js'; // Import the initialization function
 initializeDatabase
 
@@ -53,6 +55,7 @@ const startServer = async () => {
     const server = http.createServer(app);
     server.listen(PORT, () => {
       console.log(`Server is running at port ${PORT}`);
+      createAdminUser()
     });
   } catch (error) {
     console.error('Failed to start server:', error);
