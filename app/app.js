@@ -24,14 +24,16 @@ app.use(cors({
 app.use(express.json());
 app.use(limiter);
 
-app.use("/", (req,res)=>{
-res.json({
-  message:'hi chubaw'
-})
-});
+
 app.use("/api/V1/auth", authRoutes);
 app.use("/api/V1/users", userRouter);
 app.use("/api/V1/books", bookRoutes);
+
+app.use("/", (req,res)=>{
+  res.json({
+    message:'hi chubaw'
+  })
+  });
 
 app.use(notFound);
 app.use(globalErrorHandler)
