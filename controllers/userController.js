@@ -12,10 +12,22 @@ export const getUser = expressAsyncHandler(async (req, res) => {
   }
 });
 
+export const getProfile = expressAsyncHandler(async (req, res) => {
+  try {
+    const id = req.user.id;
+    const user = await User.findByPk(id);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({
+      error: "Failed to fetch users",
+    });
+  }
+});
+
 export const updateUser = expressAsyncHandler(async (req, res) => {
   try {
-    const { id } = req.params;
-    const { name, email, phone, location, role } = req.body;
+    const id = req.user.id;
+    const { name, email, phone, image } = req.body;
 
     const user = await User.findByPk(id);
     if (!user) {
@@ -28,8 +40,7 @@ export const updateUser = expressAsyncHandler(async (req, res) => {
       name,
       email,
       phone,
-      location,
-      role,
+      image,
     });
 
     res.json({
@@ -89,12 +100,32 @@ export const updateUserStatus = expressAsyncHandler(async (req, res) => {
   }
 });
 
-
-export const  getAdminOwnerData= async(req, res) => {
+export const approveOwner = expressAsyncHandler(async (req, res) => {
   try {
-    const owners = await User.getAdminOwnerData(); // Define getAdminOwnerData in the User model
+    const { id } = req.params;
+
+    let user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
+
+    user.approved = true;
+
+    await user.save();
+    res.json({ message: "User approved successfully", user });
+  } catch (error) {
+    res.status(500).json({
+      error: "Error updating user status",
+    });
+  }
+});
+
+export const getAdminOwnerData = async (req, res) => {
+  try {
+    const owners = await User.getAdminOwnerData();
     res.json(owners);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
