@@ -1,5 +1,5 @@
 import sequelize from '../config/db.js';
-import User from './user.js';
+import User from './User.js';
 import Book from './book.js';
 
 // Optionally, you can add associations here if needed

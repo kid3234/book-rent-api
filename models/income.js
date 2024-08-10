@@ -1,6 +1,6 @@
 import { DataTypes, Op } from "sequelize";
 import sequelize from "../config/dbConnect.js";
-import User from "./user.js";
+import User from "./User.js";
 
 const Income = sequelize.define(
   "Income",
