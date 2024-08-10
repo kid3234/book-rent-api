@@ -31,6 +31,7 @@ export const defineAbilitiesFor = (user) => {
   } else if (user.role === 'owner') {
     can('read', 'Book');
     can('create', 'Book');
+    can('update', 'User')
     can('update', 'Book', { ownerId: user.id });
     can('delete', 'Book', { ownerId: user.id });
     cannot('manage', 'User');
@@ -42,4 +43,3 @@ export const defineAbilitiesFor = (user) => {
   // Build and return the Ability instance with the defined rules
   return build();
 }
-
