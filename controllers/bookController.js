@@ -1,8 +1,10 @@
 import { Op } from "sequelize";
+import sequelize from "../config/dbConnect.js";
 import expressAsyncHandler from "express-async-handler";
 import Book from "../models/book.js";
 import Income from "../models/income.js";
 import User from "../models/user.js";
+import Rental from "../models/rental.js";
 
 export const CreatBook = expressAsyncHandler(async (req, res) => {
   console.log("this is me");
@@ -10,13 +12,13 @@ export const CreatBook = expressAsyncHandler(async (req, res) => {
   try {
     const { title, author, category, quantity, image, price } = req.body;
 
-    const bookexist = await Book.findOne({ where: { title: title } });
+    // const bookexist = await Book.findOne({ where: { title: title } });
 
-    if (bookexist) {
-      return res.status(500).json({
-        error: "Book exists",
-      });
-    }
+    // if (bookexist) {
+    //   return res.status(500).json({
+    //     error: "Book exists",
+    //   });
+    // }
     const book = await Book.create({
       title,
       image,
@@ -150,7 +152,7 @@ export const getAdminDashboardData = async (req, res) => {
     const incomeComparison =
       ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    const availableBooks = await Book.getAvailableBooks();
+    const availableBooks = await Book.getAvailableBooksForDashboard();
 
     const bookStatusData = await Book.getBookStatusDataForAdmin();
 
@@ -184,7 +186,7 @@ export const getOwnerDashboardData = async (req, res) => {
     const incomeComparison =
       ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    const availableBooks = await Book.getAvailableBooksByOwner(ownerId);
+    const availableBooks = await Book.getAvailableBooksForDashboard(ownerId);
 
     const bookStatusData = await Book.getBookStatusDataForOwner(ownerId);
 
@@ -219,22 +221,97 @@ export const getAdminBookData = async (req, res) => {
 };
 
 export const filterBook = async (req, res) => {
-  const query = req?.query?.value;
+  const ownerId = req.user.id; 
+  const query = req?.query?.value; 
 
-  const book = await Book.findOne({
-    where: {
-      [Op.or]: [{ title: query }, { author: query }],
-    },
-  });
+  try {
+    
+    const book = await Book.findOne({
+      where: {
+        [Op.and]: [
+          {
+            [Op.or]: [{ title: query }, { author: query }],
+          },
+          { ownerId: ownerId }, 
+        ],
+      },
+    });
 
-  if (!book) {
-    return res.status(404).json({
-      message: "Book not found!",
+    if (!book) {
+      return res.status(404).json({
+        message: "Book not found or you do not own this book!",
+      });
+    }
+
+    res.json({
+      message: "Book fetched successfully",
+      book,
+    });
+  } catch (error) {
+    console.error("Error fetching book:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching the book",
     });
   }
-
-  res.json({
-    message: "Book fetched successfully",
-    book,
-  });
 };
+export const getAvailableBooksForRent = async (req,res)=>{
+  const books =await  Book.getAvailableBooks()
+   res.json({
+    message: "Avalable books ",
+    books
+   })
+}
+
+
+export const rentBook = expressAsyncHandler(async (req,res ) => {
+  const {bookId,renterId } = req.body 
+  const transaction = await sequelize.transaction();
+
+  try {
+    const book = await Book.findByPk(bookId, { transaction });
+    if (!book) throw new Error("Book not found");
+    //    if (!await Book.isAvailableForRent(bookId)) throw new Error("Book not available for rent");
+    const rentPrice = book.price;
+    const owner = await book.getOwner({ transaction });
+    //    if (!owner.status) throw new Error("Owner is disabled");
+// renterId
+    const rental = await Rental.create(
+      { bookId,renterId, rentPrice, rentDate: new Date() },
+      { transaction }
+    );
+
+    await book.update(
+      { availability: "RENTED" },
+      { where: { id: bookId }, transaction }
+    );
+
+    const ownerIncome = book.price * 0.9; // 90% to owner
+    const systemIncome = book.price * 0.1; // 10% to system
+
+    await Income.create(
+      { userId: owner.id, amount: ownerIncome, date: new Date() },
+      { transaction }
+    );
+
+    const adminUser = await User.findOne({ where: { role: "admin" } }); // Get admin user
+
+    if (!adminUser) throw new Error("Admin user not found");
+    await Income.create(
+      { userId: adminUser.id, amount: systemIncome, date: new Date() }, // Assuming system wallet is userId: null
+      { transaction }
+    );
+    
+
+    await transaction.commit();
+    return res.json({
+      message:"rented susccesfuly",
+      rental
+    }) ;
+  } catch (error) {
+    await transaction.rollback();
+    res.status(500).json({
+      message:"error onrenting book",
+      error
+    }) ;
+  }
+});
