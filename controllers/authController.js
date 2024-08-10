@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js";
 import { logger } from "../config/logger.js";
 import expressAsyncHandler from "express-async-handler";
 import dotenv from "dotenv";
+import User from "../models/user.js";
 dotenv.config();
+
 
 export const registerUser = expressAsyncHandler(async (req, res) => {
   try {
