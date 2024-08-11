@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { logger } from "../config/logger.js";
 import expressAsyncHandler from "express-async-handler";
 import dotenv from "dotenv";
-import User from "../models/User.js";
+import User from "../models/user.js";
 dotenv.config();
 
 
