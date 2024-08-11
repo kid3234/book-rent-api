@@ -9,33 +9,36 @@ import Rental from "../models/rental.js";
 export const CreatBook = expressAsyncHandler(async (req, res) => {
   try {
     const { title, author, category, quantity, image, price } = req.body;
+
+    if (!title || !author || !category || !quantity || !image || !price) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
     const books = [];
 
     for (let i = 0; i < quantity; i++) {
-     
-      const bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(
-        100 + Math.random() * 900
-      )}`;
+      // Generate a unique book number
+      let bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(100 + Math.random() * 900)}`;
 
-      
-      const existingBook = await Book.findOne({ where: { bookNumber } });
+      // Check if bookNumber already exists
+      let existingBook = await Book.findOne({ where: { bookNumber } });
 
-    
+      // Regenerate if not unique (unlikely, but added safety check)
       while (existingBook) {
-        bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(
-          100 + Math.random() * 900
-        )}`;
+        bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(100 + Math.random() * 900)}`;
+        existingBook = await Book.findOne({ where: { bookNumber } });
       }
 
+      // Create the book with a unique book number
       const book = await Book.create({
         title,
         image,
         author,
         category,
-        quantity: 1,
+        quantity: 1, // Each individual book has a quantity of 1
         price,
         ownerId: req.user.id,
-        bookNumber,
+        bookNumber, // Assign the generated unique book number
       });
 
       books.push(book);
@@ -46,7 +49,7 @@ export const CreatBook = expressAsyncHandler(async (req, res) => {
       books, // Return all created books
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error creating books:", error);
     res.status(500).json({
       error: "Failed to create books",
     });
