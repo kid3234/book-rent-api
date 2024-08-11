@@ -165,7 +165,7 @@ export const getAdminDashboardData = async (req, res) => {
     const incomeComparison =
       ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    const availableBooks = await Book.getAvailableBooksForDashboardForAdmin();
+    const availableBooks = await Book.getAvailableBooksForDashboardAdmin();
 
     const bookStatusData = await Book.getBookStatusDataForAdmin();
 
@@ -199,7 +199,7 @@ export const getOwnerDashboardData = async (req, res) => {
     const incomeComparison =
       ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    const availableBooks = await Book.getAvailableBooksForDashboardForOwner(
+    const availableBooks = await Book.getAvailableBooksForDashboardOwner(
       ownerId
     );
 

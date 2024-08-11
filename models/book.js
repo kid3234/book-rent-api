@@ -243,7 +243,7 @@ export const Book = sequelize.define(
     onDelete: "CASCADE",
   });
 
-  Book.getAvailableBooksForDashboardForAdmin = async function () {
+  Book.getAvailableBooksForDashboardAdmin = async function () {
     return await Book.findAll({
       attributes: [
         "category",
@@ -253,7 +253,7 @@ export const Book = sequelize.define(
     });
   };
 
-  Book.getAvailableBooksForDashboardForOwner = async function (ownerId) {
+  Book.getAvailableBooksForDashboardOwner = async function (ownerId) {
     return await Book.findAll({
       where: {
         ownerId: ownerId,
