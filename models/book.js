@@ -312,7 +312,7 @@ export const Book = sequelize.define("Book", {
         {
           model: User,
           as: "owner",
-          attributes: ["id", "email"],
+          attributes: ["id", "email","name","image"],
         },
       ],
     });
