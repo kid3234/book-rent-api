@@ -5,8 +5,7 @@ import { loginSchema, registerSchema } from "../validation/authValidation.js";
 import { sanitizeInputs } from "../middlewares/sanitizeMiddleware.js";
 
 const authRoutes = express.Router();
-// 
-// 
+
 
 authRoutes.post('/register',sanitizeInputs, validationMiddleware(registerSchema), registerUser);
   

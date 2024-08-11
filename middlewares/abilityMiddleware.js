@@ -1,7 +1,7 @@
 import { defineAbilitiesFor } from "../utils/abilities.js";
 
 export const checkAbility = (action, subject) => (req, res, next) => {
-  const user = req.user; // Ensure req.user is defined
+  const user = req.user; 
   if (!user) return res.status(401).send('Unauthorized');
 
   const ability = defineAbilitiesFor(req.user);

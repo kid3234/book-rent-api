@@ -58,7 +58,7 @@ export const User = sequelize.define(
 
 
 
-// export default User;
+
 
 User.getAdminOwnerData = async function () {
   return await User.findAll({
@@ -75,7 +75,6 @@ User.getAdminOwnerData = async function () {
       "name",
       "image",
 
-      // Corrected subquery syntax
       [
         sequelize.literal(`(
         SELECT COUNT(*)
@@ -83,7 +82,7 @@ User.getAdminOwnerData = async function () {
         WHERE "Book"."ownerId" = "User"."id"
       )`),
         "booksCount",
-      ], // Alias for the count of books
+      ],
     ],
   });
 };

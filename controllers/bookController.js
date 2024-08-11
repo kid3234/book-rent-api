@@ -17,28 +17,28 @@ export const CreatBook = expressAsyncHandler(async (req, res) => {
     const books = [];
 
     for (let i = 0; i < quantity; i++) {
-      // Generate a unique book number
-      let bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(100 + Math.random() * 900)}`;
+      let bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(
+        100 + Math.random() * 900
+      )}`;
 
-      // Check if bookNumber already exists
       let existingBook = await Book.findOne({ where: { bookNumber } });
 
-      // Regenerate if not unique (unlikely, but added safety check)
       while (existingBook) {
-        bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(100 + Math.random() * 900)}`;
+        bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(
+          100 + Math.random() * 900
+        )}`;
         existingBook = await Book.findOne({ where: { bookNumber } });
       }
 
-      // Create the book with a unique book number
       const book = await Book.create({
         title,
         image,
         author,
         category,
-        quantity: 1, // Each individual book has a quantity of 1
+        quantity: 1,
         price,
         ownerId: req.user.id,
-        bookNumber, // Assign the generated unique book number
+        bookNumber,
       });
 
       books.push(book);
@@ -46,7 +46,7 @@ export const CreatBook = expressAsyncHandler(async (req, res) => {
 
     res.status(201).json({
       message: "Books created successfully",
-      books, // Return all created books
+      books,
     });
   } catch (error) {
     console.error("Error creating books:", error);
@@ -58,7 +58,6 @@ export const CreatBook = expressAsyncHandler(async (req, res) => {
 
 export const getBooks = expressAsyncHandler(async (req, res) => {
   try {
-    // Fetch books that are approved and have owners with a status other than 'disabled'
     const books = await Book.findAll({
       where: {
         approved: true,
@@ -72,7 +71,7 @@ export const getBooks = expressAsyncHandler(async (req, res) => {
               [Op.ne]: "disabled",
             },
           },
-          attributes: [], // We don't need any attributes from User, just the filter
+          attributes: [],
         },
       ],
     });

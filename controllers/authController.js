@@ -3,17 +3,15 @@ import jwt from "jsonwebtoken";
 import { logger } from "../config/logger.js";
 import expressAsyncHandler from "express-async-handler";
 import dotenv from "dotenv";
-// import { User } from "../models/book.js";
-import {User} from "../models/user.js";
+
+import { User } from "../models/user.js";
 
 dotenv.config();
 
-
 export const registerUser = expressAsyncHandler(async (req, res) => {
   try {
-    const { email, password, phone, location,role } = req.body;
+    const { email, password, phone, location, role } = req.body;
 
-    // Check if the user already exists with the provided email
     const emailExists = await User.findOne({ where: { email } });
     if (emailExists) {
       return res
@@ -21,7 +19,6 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
         .json({ error: "User already exists with this email." });
     }
 
-    // Check if the user already exists with the provided phone number
     const phoneExists = await User.findOne({ where: { phone } });
     if (phoneExists) {
       return res
@@ -29,16 +26,14 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
         .json({ error: "User already exists with this phone number." });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the user
     const user = await User.create({
       email,
       phone,
       password: hashedPassword,
       location,
-      role
+      role,
     });
 
     res.status(201).json({

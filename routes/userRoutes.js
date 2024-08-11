@@ -71,6 +71,6 @@ userRouter.get(
   getOwnerDashboardData
 );
 
-// userRouter.get("/owner/books",authenticateToken,checkAbility('read','User'),geta)
+
 
 export default userRouter;

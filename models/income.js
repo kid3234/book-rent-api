@@ -1,6 +1,5 @@
 import { DataTypes, Op } from "sequelize";
 import sequelize from "../config/dbConnect.js";
-// import { User } from "./book.js";
 import {User} from "./user.js";
 
 
@@ -37,13 +36,12 @@ const Income = sequelize.define(
 Income.belongsTo(User, { as: "user", foreignKey: "userId" });
 User.hasMany(Income, { as: "incomes", foreignKey: "userId" });
 
-// Utility function to get user role
 async function getUserRole(userId) {
   const user = await User.findByPk(userId);
   return user ? user.role : null;
 }
 
-// Get current month income based on role
+
 Income.getCurrentMonthIncome = async function (userId) {
   const role = await getUserRole(userId);
   const currentMonth = new Date().getMonth() + 1;
@@ -62,10 +60,10 @@ Income.getCurrentMonthIncome = async function (userId) {
   });
 };
 
-// Get last month income based on role
+
 Income.getLastMonthIncome = async function (userId) {
   const role = await getUserRole(userId);
-  const lastMonth = new Date().getMonth(); // Adjust for 0-indexed months
+  const lastMonth = new Date().getMonth(); 
   const currentYear = new Date().getFullYear();
 
   const whereCondition = role === "admin" ? {} : { userId };
@@ -81,7 +79,7 @@ Income.getLastMonthIncome = async function (userId) {
   });
 };
 
-// Get last 6 months income based on role
+
 Income.getLast6MonthsIncome = async function (userId) {
   const role = await getUserRole(userId);
   const date = new Date();
@@ -104,7 +102,7 @@ Income.getLast6MonthsIncome = async function (userId) {
   });
 };
 
-// Get same period last year income based on role
+
 Income.getSamePeriodLastYearIncome = async function (userId) {
   const role = await getUserRole(userId);
   const date = new Date();
