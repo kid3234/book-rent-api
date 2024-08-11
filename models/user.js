@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/dbConnect.js";
-import Book from "./book.js";
+import {Book} from "./book.js";
 
-const User = sequelize.define(
+export const User = sequelize.define(
   "User",
   {
     id: {
@@ -56,7 +56,7 @@ const User = sequelize.define(
 
 
 
-export default User;
+// export default User;
 
 User.getAdminOwnerData = async function () {
   return await User.findAll({

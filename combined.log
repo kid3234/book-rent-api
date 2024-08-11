@@ -65,3 +65,4 @@
 {"level":"info","message":"User logged in","timestamp":"2024-08-08T07:58:12.750Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
 {"level":"info","message":"User logged in","timestamp":"2024-08-08T13:58:40.047Z","userId":"6b7bf58f-4f86-4dca-bc18-87c229e41078"}
 {"level":"info","message":"User logged in","timestamp":"2024-08-08T16:20:18.582Z","userId":"77044033-71de-4922-8d34-f4a3fbc44d71"}
+{"error":"res.sttus is not a function","level":"error","message":"Login failed","timestamp":"2024-08-11T06:48:58.671Z"}

@@ -1,9 +1,9 @@
 import { Op } from "sequelize";
 import sequelize from "../config/dbConnect.js";
 import expressAsyncHandler from "express-async-handler";
-import Book from "../models/book.js";
+import {Book} from "../models/book.js";
 import Income from "../models/income.js";
-import User from "../models/user.js";
+import {User} from "../models/user.js";
 import Rental from "../models/rental.js";
 
 export const CreatBook = expressAsyncHandler(async (req, res) => {

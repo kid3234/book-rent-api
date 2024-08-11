@@ -1,5 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
-import User from "../models/user.js";
+// import { Book } from "../models/book";
+import {User} from "../models/user.js";
+
 
 export const getUser = expressAsyncHandler(async (req, res) => {
   try {

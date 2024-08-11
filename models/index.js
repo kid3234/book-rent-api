@@ -1,6 +1,6 @@
 import sequelize from '../config/db.js';
-import User from './user.js';
-import Book from './book.js';
+import {User} from './user.js';
+import {Book} from './book.js';
 
 // Optionally, you can add associations here if needed
 // User.hasMany(Book);

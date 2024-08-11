@@ -1,5 +1,4 @@
-import Book from '../models/book.js';
-import User from '../models/user.js';
+
 import sequelize from './dbConnect.js';
 
 export const initializeDatabase = async () => {
