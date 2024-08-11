@@ -1,6 +1,6 @@
 import sequelize from "../config/dbConnect.js";
 import bcrypt from "bcrypt";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 export const createAdminUser = async () => {
   try {
