@@ -195,6 +195,11 @@ export const Book = sequelize.define(
       allowNull: false,
     },
 
+    bookNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,

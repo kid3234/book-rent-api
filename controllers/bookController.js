@@ -7,35 +7,48 @@ import { User } from "../models/user.js";
 import Rental from "../models/rental.js";
 
 export const CreatBook = expressAsyncHandler(async (req, res) => {
-  console.log("this is me");
-
   try {
     const { title, author, category, quantity, image, price } = req.body;
+    const books = [];
 
-    // const bookexist = await Book.findOne({ where: { title: title } });
+    for (let i = 0; i < quantity; i++) {
+     
+      const bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(
+        100 + Math.random() * 900
+      )}`;
 
-    // if (bookexist) {
-    //   return res.status(500).json({
-    //     error: "Book exists",
-    //   });
-    // }
-    const book = await Book.create({
-      title,
-      image,
-      author,
-      category,
-      quantity,
-      price,
-      ownerId: req.user.id,
-    });
+      
+      const existingBook = await Book.findOne({ where: { bookNumber } });
+
+    
+      while (existingBook) {
+        bookNumber = `${title.charAt(0).toUpperCase()}${Math.floor(
+          100 + Math.random() * 900
+        )}`;
+      }
+
+      const book = await Book.create({
+        title,
+        image,
+        author,
+        category,
+        quantity: 1,
+        price,
+        ownerId: req.user.id,
+        bookNumber,
+      });
+
+      books.push(book);
+    }
 
     res.status(201).json({
-      message: "Book created successfuly",
-      book,
+      message: "Books created successfully",
+      books, // Return all created books
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
-      error: "Failed to create book",
+      error: "Failed to create books",
     });
   }
 });
