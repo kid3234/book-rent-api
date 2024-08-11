@@ -12,9 +12,11 @@ export const User = sequelize.define(
     },
     name: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     image: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,
