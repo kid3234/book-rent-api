@@ -256,7 +256,7 @@ export const Book = sequelize.define(
   Book.getAvailableBooksForDashboardForOwner = async function (ownerId) {
     return await Book.findAll({
       where: {
-        id: ownerId,
+        ownerId: ownerId,
       },
       attributes: [
         "category",
