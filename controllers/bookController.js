@@ -152,7 +152,7 @@ export const getAdminDashboardData = async (req, res) => {
     const incomeComparison =
       ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    const availableBooks = await Book.getAvailableBooksForDashboard();
+    const availableBooks = await Book.getAvailableBooksForDashboardForAdmin();
 
     const bookStatusData = await Book.getBookStatusDataForAdmin();
 
@@ -186,7 +186,7 @@ export const getOwnerDashboardData = async (req, res) => {
     const incomeComparison =
       ((currentMonthIncome - lastMonthIncome) / lastMonthIncome) * 100;
 
-    const availableBooks = await Book.getAvailableBooksForDashboard(ownerId);
+    const availableBooks = await Book.getAvailableBooksForDashboardForOwner(ownerId);
 
     const bookStatusData = await Book.getBookStatusDataForOwner(ownerId);
 
@@ -270,11 +270,10 @@ export const rentBook = expressAsyncHandler(async (req,res ) => {
   try {
     const book = await Book.findByPk(bookId, { transaction });
     if (!book) throw new Error("Book not found");
-    //    if (!await Book.isAvailableForRent(bookId)) throw new Error("Book not available for rent");
+   
     const rentPrice = book.price;
     const owner = await book.getOwner({ transaction });
-    //    if (!owner.status) throw new Error("Owner is disabled");
-// renterId
+  
     const rental = await Rental.create(
       { bookId,renterId, rentPrice, rentDate: new Date() },
       { transaction }
@@ -285,19 +284,19 @@ export const rentBook = expressAsyncHandler(async (req,res ) => {
       { where: { id: bookId }, transaction }
     );
 
-    const ownerIncome = book.price * 0.9; // 90% to owner
-    const systemIncome = book.price * 0.1; // 10% to system
+    const ownerIncome = book.price * 0.9; 
+    const systemIncome = book.price * 0.1; 
 
     await Income.create(
       { userId: owner.id, amount: ownerIncome, date: new Date() },
       { transaction }
     );
 
-    const adminUser = await User.findOne({ where: { role: "admin" } }); // Get admin user
+    const adminUser = await User.findOne({ where: { role: "admin" } }); 
 
     if (!adminUser) throw new Error("Admin user not found");
     await Income.create(
-      { userId: adminUser.id, amount: systemIncome, date: new Date() }, // Assuming system wallet is userId: null
+      { userId: adminUser.id, amount: systemIncome, date: new Date() },
       { transaction }
     );
     
