@@ -62,11 +62,16 @@ export const rentBook = expressAsyncHandler(async (bookId, renterId, deviceDate)
     const rentPrice = book.price;
     const owner = await book.getOwner({ transaction });
     
-    // Convert deviceDate to a Date object
-    // const date = new Date(deviceDate);
+  
+    const date = new Date(deviceDate);
+
+    console.log("device date", deviceDate);
+    console.log("converted date",date);
+    
+    
 
     const rental = await Rental.create(
-      { bookId, renterId, rentPrice, rentDate: deviceDate },
+      { bookId, renterId, rentPrice, rentDate: date },
       { transaction }
     );
 
@@ -79,7 +84,7 @@ export const rentBook = expressAsyncHandler(async (bookId, renterId, deviceDate)
     const systemIncome = book.price * 0.1;
 
     await Income.create(
-      { userId: owner.id, amount: ownerIncome, date:deviceDate },
+      { userId: owner.id, amount: ownerIncome, date:date },
       { transaction }
     );
 
@@ -87,7 +92,7 @@ export const rentBook = expressAsyncHandler(async (bookId, renterId, deviceDate)
 
     if (!adminUser) throw new Error("Admin user not found");
     await Income.create(
-      { userId: adminUser.id, amount: systemIncome, date }, 
+      { userId: adminUser.id, amount: systemIncome, date:date }, 
       { transaction }
     );
     
