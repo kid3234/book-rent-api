@@ -63,10 +63,10 @@ export const rentBook = expressAsyncHandler(async (bookId, renterId, deviceDate)
     const owner = await book.getOwner({ transaction });
     
     // Convert deviceDate to a Date object
-    const date = new Date(deviceDate);
+    // const date = new Date(deviceDate);
 
     const rental = await Rental.create(
-      { bookId, renterId, rentPrice, rentDate: date },
+      { bookId, renterId, rentPrice, rentDate: deviceDate },
       { transaction }
     );
 
@@ -79,7 +79,7 @@ export const rentBook = expressAsyncHandler(async (bookId, renterId, deviceDate)
     const systemIncome = book.price * 0.1;
 
     await Income.create(
-      { userId: owner.id, amount: ownerIncome, date },
+      { userId: owner.id, amount: ownerIncome, date:deviceDate },
       { transaction }
     );
 
