@@ -2,6 +2,7 @@ import express from "express";
 import {
   approveOwner,
   deleteUser,
+  filterUser,
   getAdminOwnerData,
   getProfile,
   getUser,
@@ -69,6 +70,13 @@ userRouter.get(
   authenticateToken,
   checkAbility("read", "Book"),
   getOwnerDashboardData
+);
+
+userRouter.get(
+  "/owner/filter",
+  authenticateToken,
+  checkAbility("read", "User"),
+  filterUser
 );
 
 

@@ -131,3 +131,38 @@ export const getAdminOwnerData = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+export const filterUser = async (req, res) => {
+  const query = req?.query?.value;
+
+  try {
+    const user = await User.findAll({
+      where: {
+        [Op.and]: [
+          {
+            [Op.or]: [{ name: query }, { location: query }],
+          },
+          { role: 'owner' },
+        ],
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found or you do not own this user!",
+      });
+    }
+
+    res.json({
+      message: "user filterd successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching the user",
+    });
+  }
+};
+

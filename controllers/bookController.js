@@ -237,16 +237,19 @@ export const getAdminBookData = async (req, res) => {
   }
 };
 
+
+
+
 export const filterBook = async (req, res) => {
   const ownerId = req.user.id;
   const query = req?.query?.value;
 
   try {
-    const book = await Book.findOne({
+    const book = await Book.findAll({
       where: {
         [Op.and]: [
           {
-            [Op.or]: [{ title: query }, { author: query }],
+            [Op.or]: [{ title: query }, { author: query },{ category: query },{ owner: query },{ status: query }],
           },
           { ownerId: ownerId },
         ],
@@ -270,6 +273,11 @@ export const filterBook = async (req, res) => {
     });
   }
 };
+
+
+
+
+
 export const getAvailableBooksForRent = async (req, res) => {
   const books = await Book.getAvailableBooks();
   res.json({
@@ -279,7 +287,7 @@ export const getAvailableBooksForRent = async (req, res) => {
 };
 
 export const rentBook = expressAsyncHandler(async (req, res) => {
-  const { bookId, renterId } = req.body;
+  const { bookId, renterId , devicedate} = req.body;
   const transaction = await sequelize.transaction();
 
   try {
@@ -288,9 +296,9 @@ export const rentBook = expressAsyncHandler(async (req, res) => {
 
     const rentPrice = book.price;
     const owner = await book.getOwner({ transaction });
-
+const date = new Date(devicedate)
     const rental = await Rental.create(
-      { bookId, renterId, rentPrice, rentDate: new Date() },
+      { bookId, renterId, rentPrice, rentDate: date },
       { transaction }
     );
 
@@ -303,7 +311,7 @@ export const rentBook = expressAsyncHandler(async (req, res) => {
     const systemIncome = book.price * 0.1;
 
     await Income.create(
-      { userId: owner.id, amount: ownerIncome, date: new Date() },
+      { userId: owner.id, amount: ownerIncome, date: date },
       { transaction }
     );
 
@@ -311,7 +319,7 @@ export const rentBook = expressAsyncHandler(async (req, res) => {
 
     if (!adminUser) throw new Error("Admin user not found");
     await Income.create(
-      { userId: adminUser.id, amount: systemIncome, date: new Date() },
+      { userId: adminUser.id, amount: systemIncome, date: date },
       { transaction }
     );
 
