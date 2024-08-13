@@ -238,25 +238,34 @@ export const getAdminBookData = async (req, res) => {
 };
 
 
-
-
 export const filterBook = async (req, res) => {
   const ownerId = req.user.id;
   const query = req?.query?.value;
+
+  if (!query) {
+    return res.status(400).json({
+      message: "Query parameter is required",
+    });
+  }
 
   try {
     const book = await Book.findAll({
       where: {
         [Op.and]: [
           {
-            [Op.or]: [{ title: query }, { author: query },{ category: query },{ owner: query },{ status: query }],
+            [Op.or]: [
+              { title: { [Op.iLike]: `%${query}%` } },
+              { author: { [Op.iLike]: `%${query}%` } },
+              { category: { [Op.iLike]: `%${query}%` } },
+              { status: { [Op.iLike]: `%${query}%` } },
+            ],
           },
           { ownerId: ownerId },
         ],
       },
     });
 
-    if (!book) {
+    if (book.length === 0) {
       return res.status(404).json({
         message: "Book not found or you do not own this book!",
       });
@@ -278,6 +287,7 @@ export const filterBook = async (req, res) => {
 
 
 
+
 export const getAvailableBooksForRent = async (req, res) => {
   const books = await Book.getAvailableBooks();
   res.json({
@@ -287,7 +297,7 @@ export const getAvailableBooksForRent = async (req, res) => {
 };
 
 export const rentBook = expressAsyncHandler(async (req, res) => {
-  const { bookId, renterId , devicedate} = req.body;
+  const { bookId, renterId } = req.body;
   const transaction = await sequelize.transaction();
 
   try {
@@ -298,7 +308,7 @@ export const rentBook = expressAsyncHandler(async (req, res) => {
     const owner = await book.getOwner({ transaction });
 // const date = new Date(devicedate)
     const rental = await Rental.create(
-      { bookId, renterId, rentPrice, rentDate: devicedate },
+      { bookId, renterId, rentPrice, rentDate: new Date() },
       { transaction }
     );
 
@@ -311,7 +321,7 @@ export const rentBook = expressAsyncHandler(async (req, res) => {
     const systemIncome = book.price * 0.1;
 
     await Income.create(
-      { userId: owner.id, amount: ownerIncome, date: devicedate },
+      { userId: owner.id, amount: ownerIncome, date: new Date() },
       { transaction }
     );
 
@@ -319,7 +329,7 @@ export const rentBook = expressAsyncHandler(async (req, res) => {
 
     if (!adminUser) throw new Error("Admin user not found");
     await Income.create(
-      { userId: adminUser.id, amount: systemIncome, date: devicedate },
+      { userId: adminUser.id, amount: systemIncome, date: new Date() },
       { transaction }
     );
 
