@@ -237,52 +237,7 @@ export const getAdminBookData = async (req, res) => {
   }
 };
 
-// export const filterBook = async (req, res) => {
-//   const ownerId = req.user.id;
-//   const query = req?.query?.value;
 
-
-//   if (!query) {
-//     return res.status(400).json({
-//       message: "Query parameter is required",
-//     });
-//   }
-
-//   try {
-    
-//     const books = await Book.findAll({
-//       where: {
-//         [Op.and]: [
-//           {
-//             [Op.or]: [
-//               { title: { [Op.iLike]: `%${query}%` } },
-//               { author: { [Op.iLike]: `%${query}%` } },
-//               { category: { [Op.iLike]: `%${query}%` } }, 
-//               { status: { [Op.iLike]: `%${query}%` } },
-//             ],
-//           },
-//           { ownerId: ownerId },
-//         ],
-//       },
-//     });
-
-//     if (books.length === 0) {
-//       return res.status(404).json({
-//         message: "No books found or you do not own any books matching the query!",
-//       });
-//     }
-
-//     res.json({
-//       message: "Books fetched successfully",
-//       books,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching books:", error.message); // Log the error message
-//     res.status(500).json({
-//       message: "An error occurred while fetching the books",
-//     });
-//   }
-// };
 
 export const filterBook = async (req, res) => {
   const ownerId = req.user.id;
@@ -335,13 +290,9 @@ export const filterBookForAll = async (req, res) => {
       where: {
         [Op.and]: [
           {
-            [Op.or]: [
-              { title: { [Op.iLike]: `%${query}%` } },
-              { author: { [Op.iLike]: `%${query}%` } },
-              { category: { [Op.iLike]: `%${query}%` } },
-              { status: { [Op.iLike]: `%${query}%` } },
-            ],
+            [Op.or]: [{ title: query }, { author: query }],
           },
+          { ownerId: ownerId },
         ],
       },
     });
