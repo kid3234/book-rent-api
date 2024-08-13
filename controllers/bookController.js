@@ -242,6 +242,9 @@ export const filterBook = async (req, res) => {
   const ownerId = req.user.id;
   const query = req?.query?.value;
 
+  console.log("query",query);
+  
+
   if (!query) {
     return res.status(400).json({
       message: "Query parameter is required",
@@ -261,6 +264,52 @@ export const filterBook = async (req, res) => {
             ],
           },
           { ownerId: ownerId },
+        ],
+      },
+    });
+
+    if (book.length === 0) {
+      return res.status(404).json({
+        message: "Book not found or you do not own this book!",
+      });
+    }
+
+    res.json({
+      message: "Book fetched successfully",
+      book,
+    });
+  } catch (error) {
+    console.error("Error fetching book:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching the book",
+    });
+  }
+};
+
+export const filterBookForAll = async (req, res) => {
+  const query = req?.query?.value;
+
+  console.log("query",query);
+  
+
+  if (!query) {
+    return res.status(400).json({
+      message: "Query parameter is required",
+    });
+  }
+
+  try {
+    const book = await Book.findAll({
+      where: {
+        [Op.and]: [
+          {
+            [Op.or]: [
+              { title: { [Op.iLike]: `%${query}%` } },
+              { author: { [Op.iLike]: `%${query}%` } },
+              { category: { [Op.iLike]: `%${query}%` } },
+              { status: { [Op.iLike]: `%${query}%` } },
+            ],
+          },
         ],
       },
     });
