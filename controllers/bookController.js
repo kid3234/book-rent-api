@@ -244,7 +244,7 @@ export const filterBook = async (req, res) => {
   const query = req?.query?.value;
 
   try {
-    const book = await Book.findOne({
+    const book = await Book.findAll({
       where: {
         [Op.and]: [
           {
